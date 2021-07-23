@@ -55,10 +55,10 @@ void AMovingWall::MoveSideways(int offset, int timeOpen) {
 		stepAmount = -(offset / 200);
 		destLocation = startLocation;
 		FTimerHandle timer;
-		GetWorld()->GetTimerManager().SetTimer(timer, [this, offset, startLocation]() {
+		GetWorld()->GetTimerManager().SetTimer(timer, [this]() {
 			special = false;
 			moving = false;
-			}, 5, 0);
+			}, 3, 0);
 		}, timeOpen, 0);
 }
 
