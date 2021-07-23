@@ -35,4 +35,7 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int platformOffset = 400;
+
 };

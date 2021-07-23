@@ -26,6 +26,8 @@ public:
 	virtual void AllowMove();
 	virtual void StopMove();
 
+	virtual void MoveSideways(int offset, int timeOpen);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float FloatSpeed = 20.0f;
 
@@ -35,4 +37,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool canMove;
 
+	UPROPERTY()
+		bool special;
+
+	UPROPERTY()
+		bool moving;
+
+	UPROPERTY()
+		int stepAmount;
+
+	UPROPERTY()
+		FVector destLocation;
 };

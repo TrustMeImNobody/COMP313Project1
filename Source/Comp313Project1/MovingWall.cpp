@@ -39,23 +39,52 @@ void AMovingWall::StopMove() {
 	canMove = false;
 }
 
+void AMovingWall::MoveSideways(int offset, int timeOpen) {
+	if (moving) {
+		return;
+	}
+	FVector startLocation = GetActorLocation();
+	FVector stopLocation = startLocation;
+	stopLocation.X += offset;
+	stepAmount = offset / 200;
+	special = true;
+	moving = true;
+	destLocation = stopLocation;
+	FTimerHandle timer;
+	GetWorld()->GetTimerManager().SetTimer(timer, [this,offset,startLocation]() {
+		stepAmount = -(offset / 200);
+		destLocation = startLocation;
+		FTimerHandle timer;
+		GetWorld()->GetTimerManager().SetTimer(timer, [this, offset, startLocation]() {
+			special = false;
+			moving = false;
+			}, 5, 0);
+		}, timeOpen, 0);
+}
+
 // Called every frame
 void AMovingWall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (special) {
+		FVector newLocation = GetActorLocation();
+		if (newLocation.X == destLocation.X) {
+			stepAmount = 0;
+		}
+		newLocation.X += stepAmount;
+		SetActorLocation(newLocation);
+		return;
+	}
 
 	if (!canMove) {
 		return;
 	}
 
 	FVector NewLocation = GetActorLocation();
-	//FRotator NewRotation = GetActorRotation();
 	float RunningTime = GetGameTimeSinceCreation();
 	float DeltaHeight = (FMath::Sin(RunningTime + DeltaTime) - FMath::Sin(RunningTime));
-	NewLocation.X += DeltaHeight * FloatSpeed;       //Scale our height by a factor of 20
-	//float DeltaRotation = DeltaTime * RotationSpeed;    //Rotate by 20 degrees per second
-	//NewRotation.Yaw += DeltaRotation;
-	//SetActorLocationAndRotation(NewLocation, NewRotation);
+	NewLocation.X += DeltaHeight * FloatSpeed;
 	SetActorLocation(NewLocation);
 
 }

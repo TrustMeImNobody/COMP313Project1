@@ -33,9 +33,10 @@ void APlatfromTriggerBox::OnOverlapBegin(class AActor* OverlappedActor, class AA
 
         ACharacter* player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
         //if (*OtherActor->GetName() == player->GetName()) {
-            print("Gottem");
+        print("Gottem");
         //}
 
+        /*
         TArray<AActor*> movingWalls;
         UGameplayStatics::GetAllActorsOfClass(GetWorld(),AMovingWall::StaticClass(),movingWalls);
         AActor* temp1 = NULL;
@@ -49,7 +50,7 @@ void APlatfromTriggerBox::OnOverlapBegin(class AActor* OverlappedActor, class AA
 
         AMovingWall* temp = Cast<AMovingWall>(temp1);
         temp->AllowMove();
-
+        */
     }
 }
 
@@ -62,9 +63,16 @@ void APlatfromTriggerBox::OnOverlapEnd(class AActor* OverlappedActor, class AAct
 
         TArray<AActor*> movingWalls;
         UGameplayStatics::GetAllActorsOfClass(GetWorld(), AMovingWall::StaticClass(), movingWalls);
+        AActor* temp1 = NULL;
 
-        AMovingWall* temp = Cast<AMovingWall>(movingWalls[0]);
-        temp->StopMove();
+        for (AActor* Actor : movingWalls) {
+            if (Actor->GetName() == "FirstDoor") {
+                temp1 = Actor;
+                break;
+            }
+        }
 
+        AMovingWall* temp = Cast<AMovingWall>(temp1);
+        temp->MoveSideways(400, 5);
     }
 }
