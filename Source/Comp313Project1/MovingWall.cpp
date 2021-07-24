@@ -13,8 +13,9 @@ AMovingWall::AMovingWall()
 	VisualMesh->SetupAttachment(RootComponent);
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
-	//static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_QuadPyramid.Shape_QuadPyramid"));
 
+	static ConstructorHelpers::FObjectFinder<USoundBase> audioReference(TEXT("'/Game/MyCreations/WallMove.WallMove'"));
+	sound = audioReference.Object;
 
 	if (CubeVisualAsset.Succeeded())
 	{
@@ -39,25 +40,35 @@ void AMovingWall::StopMove() {
 	canMove = false;
 }
 
-void AMovingWall::MoveSideways(int offset, int timeOpen) {
+void AMovingWall::MoveSideways(float offset, int timeOpen) {
 	if (moving) {
 		return;
 	}
 	FVector startLocation = GetActorLocation();
 	FVector stopLocation = startLocation;
 	stopLocation.X += offset;
-	stepAmount = offset / 200;
+	stepAmount = offset / 800;
 	special = true;
 	moving = true;
+	canMove = true;
 	destLocation = stopLocation;
+
+	if(sound!=NULL){
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, startLocation, 1, 1, 0);
+	}
+
 	FTimerHandle timer;
-	GetWorld()->GetTimerManager().SetTimer(timer, [this,offset,startLocation]() {
-		stepAmount = -(offset / 200);
+	GetWorld()->GetTimerManager().SetTimer(timer, [this,offset,startLocation, stopLocation]() {
+		if (sound != NULL) {
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, stopLocation, 1, 1, 0);
+		}
+		stepAmount = -(offset / 800);
 		destLocation = startLocation;
-		FTimerHandle timer;
-		GetWorld()->GetTimerManager().SetTimer(timer, [this]() {
+		FTimerHandle timer2;
+		GetWorld()->GetTimerManager().SetTimer(timer2, [this, stopLocation]() {
 			special = false;
 			moving = false;
+			canMove = false;
 			}, 3, 0);
 		}, timeOpen, 0);
 }
@@ -65,19 +76,21 @@ void AMovingWall::MoveSideways(int offset, int timeOpen) {
 // Called every frame
 void AMovingWall::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	//Super::Tick(DeltaTime);
+
+	if (!canMove) {
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+		return;
+	}
 
 	if (special) {
 		FVector newLocation = GetActorLocation();
 		if (newLocation.X == destLocation.X) {
 			stepAmount = 0;
 		}
+		
 		newLocation.X += stepAmount;
 		SetActorLocation(newLocation);
-		return;
-	}
-
-	if (!canMove) {
 		return;
 	}
 

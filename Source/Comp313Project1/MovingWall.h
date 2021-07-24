@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 #include "MovingWall.generated.h"
 
 UCLASS()
@@ -26,7 +27,7 @@ public:
 	virtual void AllowMove();
 	virtual void StopMove();
 
-	virtual void MoveSideways(int offset, int timeOpen);
+	virtual void MoveSideways(float offset, int timeOpen);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float FloatSpeed = 20.0f;
@@ -36,16 +37,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool canMove;
-
 	UPROPERTY()
 		bool special;
-
 	UPROPERTY()
 		bool moving;
-
 	UPROPERTY()
-		int stepAmount;
-
+		float stepAmount;
 	UPROPERTY()
 		FVector destLocation;
+	UPROPERTY()
+		USoundBase* sound;
 };

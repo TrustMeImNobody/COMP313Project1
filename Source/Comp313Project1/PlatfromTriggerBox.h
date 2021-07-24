@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Engine/TriggerBox.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/Character.h"
 #include "MovingWall.h"
 #include "PlatfromTriggerBox.generated.h"
 
@@ -37,5 +36,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int platformOffset = 400;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int closeDelay = 10;
 
 };
