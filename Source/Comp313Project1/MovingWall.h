@@ -37,6 +37,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool canMove;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool positionLocked;
 	UPROPERTY()
 		bool special;
 	UPROPERTY()
@@ -47,4 +49,8 @@ public:
 		FVector destLocation;
 	UPROPERTY()
 		USoundBase* sound;
+	UPROPERTY()
+		FTimerHandle timer1;
+	UPROPERTY()
+		FTimerHandle timer2;
 };
