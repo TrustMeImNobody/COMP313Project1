@@ -54,12 +54,12 @@ void AMovingWall::MoveSideways(float offset, int timeOpen) {
 	destLocation = stopLocation;
 
 	if(sound!=NULL){
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, startLocation, 1, 1, 0);
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, startLocation, volume, 1, 0);
 	}
 
 	GetWorld()->GetTimerManager().SetTimer(timer1, [this,offset,startLocation, stopLocation]() {
 		if (sound != NULL) {
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, stopLocation, 1, 1, 0);
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound, stopLocation, volume, 1, 0);
 		}
 		stepAmount = -(offset / 800);
 		destLocation = startLocation;
