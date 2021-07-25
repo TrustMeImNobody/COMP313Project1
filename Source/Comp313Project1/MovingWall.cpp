@@ -14,7 +14,7 @@ AMovingWall::AMovingWall()
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
 
-	static ConstructorHelpers::FObjectFinder<USoundBase> audioReference(TEXT("'/Game/MyCreations/WallMove.WallMove'"));
+	static ConstructorHelpers::FObjectFinder<USoundBase> audioReference(TEXT("'/Game/MyCreations/AudioAssets/WallMove.WallMove'"));
 	sound = audioReference.Object;
 
 	if (CubeVisualAsset.Succeeded())
