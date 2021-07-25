@@ -46,7 +46,12 @@ void AMovingWall::MoveSideways(float offset, int timeOpen) {
 	}
 	FVector startLocation = GetActorLocation();
 	FVector stopLocation = startLocation;
-	stopLocation.X += offset;
+	if (moveX) {
+		stopLocation.X += offset;
+	}
+	else {
+		stopLocation.Y += offset;
+	}
 	stepAmount = offset / 800;
 	special = true;
 	moving = true;
@@ -84,11 +89,18 @@ void AMovingWall::Tick(float DeltaTime)
 
 	if (special) {
 		FVector newLocation = GetActorLocation();
-		if (newLocation.X == destLocation.X) {
-			stepAmount = 0;
+		if (moveX){
+			if (newLocation.X == destLocation.X) {
+				stepAmount = 0;
+			}
+			newLocation.X += stepAmount;
 		}
-		
-		newLocation.X += stepAmount;
+		else {
+			if (newLocation.Y == destLocation.Y) {
+				stepAmount = 0;
+			}
+			newLocation.Y += stepAmount;
+		}
 		SetActorLocation(newLocation);
 		return;
 	}
@@ -96,7 +108,12 @@ void AMovingWall::Tick(float DeltaTime)
 	FVector NewLocation = GetActorLocation();
 	float RunningTime = GetGameTimeSinceCreation();
 	float DeltaHeight = (FMath::Sin(RunningTime + DeltaTime) - FMath::Sin(RunningTime));
-	NewLocation.X += DeltaHeight * FloatSpeed;
+	if (moveX) {
+		NewLocation.X += DeltaHeight * FloatSpeed;
+	}
+	else {
+		NewLocation.Y += DeltaHeight * FloatSpeed;
+	}
 	SetActorLocation(NewLocation);
 
 }

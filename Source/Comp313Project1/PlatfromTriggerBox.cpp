@@ -2,12 +2,7 @@
 
 
 #include "PlatfromTriggerBox.h"
-// include draw debug helpers header file
-#include "DrawDebugHelpers.h"
 #include <Runtime/Engine/Public/GeneratedCodeHelpers.h>
-
-#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
-#define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
 
 APlatfromTriggerBox::APlatfromTriggerBox()
 {
@@ -20,33 +15,28 @@ void APlatfromTriggerBox::BeginPlay()
 {
     Super::BeginPlay();
 
-    DrawDebugBox(GetWorld(), GetActorLocation(), GetActorScale() * 100, FColor::Cyan, true, -1, 0, 5);
-
 }
 
 void APlatfromTriggerBox::OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-    if (OtherActor && (OtherActor != this)) {
-        // print to screen using above defined method when actor enters trigger volume
-        print("Overlap Begin");
-        printFString("Other Actor = %s", *OtherActor->GetName());
 
-    }
 }
 
 void APlatfromTriggerBox::OnOverlapEnd(class AActor* OverlappedActor, class AActor* OtherActor)
 {
+    
+    if (targetTag.GetStringLength() <= 0) {
+        return;
+    }
+
     if (OtherActor && (OtherActor != this)) {
-        // print to screen using above defined method when actor leaves trigger volume
-        print("Overlap Ended");
-        printFString("%s has left the Trigger Volume", *OtherActor->GetName());
 
         TArray<AActor*> movingWalls;
         UGameplayStatics::GetAllActorsOfClass(GetWorld(), AMovingWall::StaticClass(), movingWalls);
         AActor* temp1 = NULL;
 
         for (AActor* Actor : movingWalls) {
-            if (Actor->GetName() == "FirstDoor") {
+            if (Actor->Tags[0] == targetTag) {
                 temp1 = Actor;
                 break;
             }

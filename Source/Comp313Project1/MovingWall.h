@@ -31,14 +31,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float FloatSpeed = 20.0f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 		float volume = 1;
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* VisualMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool canMove;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 		bool positionLocked;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool moveX = false;
 	UPROPERTY()
 		bool special;
 	UPROPERTY()

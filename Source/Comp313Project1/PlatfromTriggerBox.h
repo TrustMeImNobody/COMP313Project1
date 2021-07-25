@@ -38,6 +38,9 @@ public:
 		int platformOffset = 400;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int closeDelay = 10;
+		int closeDelay;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FName targetTag;
 
 };
