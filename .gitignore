@@ -1,3 +1,6 @@
+# Ignore .mp3 files (not that I have any, I'm just showing I know how this works)
+*.mp3
+
 # Visual Studio 2015 user specific files
 .vs/
 
