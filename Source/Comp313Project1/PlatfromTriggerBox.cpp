@@ -36,6 +36,9 @@ void APlatfromTriggerBox::OnOverlapEnd(class AActor* OverlappedActor, class AAct
         AActor* temp1 = NULL;
 
         for (AActor* Actor : movingWalls) {
+            if (Actor->Tags.Num() == 0) {
+                continue;
+            }
             if (Actor->Tags[0] == targetTag) {
                 temp1 = Actor;
                 break;

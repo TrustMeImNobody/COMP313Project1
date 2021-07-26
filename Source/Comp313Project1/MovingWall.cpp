@@ -72,7 +72,7 @@ void AMovingWall::MoveSideways(float offset, int timeOpen) {
 			special = false;
 			moving = false;
 			canMove = false;
-			}, 3, 0);
+			}, 5, 0);
 		}, timeOpen, 0);
 }
 
