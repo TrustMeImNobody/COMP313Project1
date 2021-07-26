@@ -10,4 +10,4 @@
  
  Title: Abyss Climber
  
- Demo Video: (to be recorded)
+ Demo Video: https://youtu.be/KNu32RbFcNw
